@@ -1,6 +1,6 @@
 import os.path
 from os import path
-
+import sys
 msg = ["New file name: ","Existing File Name: "]
 
 def main():
@@ -11,20 +11,21 @@ def askinfo():
     checkpoint = "askinfo";
     whichoption = str(input("1-Create a new file \n"
                             "2-Search for a file\n"
-                            "Select an option by typing 1 or 2: "));
+                            "3-Exit the program \n"
+                            "Select an option by typing 1,2 or 3: "));
     checkinfo(whichoption,checkpoint)
     
 def typefile():
     checkpoint = "typefile"
     if(int(whichoption) == int(1)):
-        typeof = int(input("What type of file would you like to create\n"
+        typeof = str(input("What type of file would you like to create\n"
                            "1-Excel File\n"
                            "2-Word Document\n"
                            "3-Text File\n"
                            "Select an option by typing in 1,2 or 3: "))
         checkinfo(typeof,checkpoint)
     else:
-        typeof = int(input("What file would you like to open?\n"
+        typeof = str(input("What type of file is it? \n"
                            "1-Excel File\n"
                            "2-Word Document\n"
                            "3-Text File\n"
@@ -45,35 +46,36 @@ def files():
         print("File created")
 
     adminfile.close()
-    program()
-def program():
-    checkpoint = "program"
-    programcontinue = str(input("1-Create more files \n"
-                                "2-Stop the program \n"
-                                "Type in 1 or 2 to select a choice: "))
-    checkinfo(programcontinue,checkpoint)
-
+    
 def checkinfo(optionwhich,pointcheck):
     global whichone
     match(pointcheck):
         case "askinfo":
             value = ord(str(optionwhich))
-            if(int(value)) < int(49) or int((value) > int(50)):
-                print("Incorrect input, Type in 1 or 2!");
+            if(int(value)) < int(49) or int((value) > int(51)):
+                print("Incorrect input, Type in 1,2 or 3!");
                 askinfo()
             else:
-                if(int(optionwhich) == int(1)):
-                    whichone = str(input(msg[0]));
-                else:
-                    whichone = str(input(msg[1]));
-                typefile()
+                match int(optionwhich):
+                    case 1:
+                        whichone = str(input(msg[0]));
+                        typefile()
+                    case 2:
+                        whichone = str(input(msg[1]));
+                        typefile()
+                    case 3:
+                        print("Goodbye!!!")
+                        sys.exit()
+                    case default:
+                        print("You did something very wrong to be here")
+                        
         case "typefile":
             check = ord(str(optionwhich))
             if(int(check)) < int(49) or int((check) > int(51)):
                 print("Type in a correcet input")
                 typefile()
-            else:
-                match optionwhich:
+            else: 
+                match int(optionwhich):
                     case 1:
                         whichone = whichone + ".xlsx"
                         files()
@@ -85,16 +87,7 @@ def checkinfo(optionwhich,pointcheck):
                         files()
                     case default:
                         print("You did something very wrong to be here")
-        case "program":
-            check2 = ord(str(optionwhich))
-            if(int(check2)) < int(49) or int((check2) > int(50)):
-                print("Type in a correct input")
-                files()
-            else:
-                if(int(optionwhich) == int(1)):
-                    askinfo()
-                else:
-                    print("Goodbye!!")
+                        
         case default:
             print("Uh somethings wrong")
             
