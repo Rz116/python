@@ -1,15 +1,18 @@
-from flask import Flask,redirect,url_for
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
-@app.route("/")
+@app.route('/',methods = ["GET","POST"])
 
-def home():
-    return "Hello I am here <h1>Hello</h1>"
-@app.route("/<name>")
-def user(name):
-    return f"Hello {name}"
-@app.route("/admin")
-def admin():
-    return redirect(url_for("user",name = "Z"))
+def main():
+    if request.method == "GET":
+        print("hello")
+        return render_template("index1.html")
+    else:
+        Getinfo()
+        return render_template("index1.html")
+def Getinfo():
+    name = request.form.get("Nameinput")
+    email = request.form.get("MailInput")
+    print("Hello" + name + "Thank you for your email" + email)
 if __name__ == "__main__":
     app.run()
