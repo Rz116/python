@@ -8,14 +8,13 @@ def main():
         return render_template("index1.html")
     else:
         info()
-        return redirect(url_for("info"))
+        return render_template("index2.html")
     
 @app.route("/info",methods = ["POST"])    
 def info():
     global name,email
     name = request.form.get("Nameinput")
     email = request.form.get("passwordInput")
-    print(name + email)
     return render_template('index2.html',username=name,password=email)
     
 if __name__ == "__main__":
