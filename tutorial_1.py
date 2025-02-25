@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request,redirect,url_for
-
+import os.path
+from os import path
 app = Flask(__name__)
 @app.route('/',methods = ["GET","POST"])
 
@@ -14,8 +15,19 @@ def main():
 def info():
     global name,email
     name = request.form.get("Nameinput")
-    email = request.form.get("passwordInput")
+    email = request.form.get("Passinput")
+    FileSave()
     return render_template('index2.html',username=name,password=email)
+def FileSave():
+    filename = "Information" + ".doc"
+    filedir = os.path.dirname(os.path.realpath("__file__"))
+    existing = bool(path.exists(filename))
+    if(existing == False):
+        adminfile = open(filename, "x")
+        adminfile = open(filename, "w")
+        adminfile.write("Username: " + name)
+    
     
 if __name__ == "__main__":
     app.run()
+
