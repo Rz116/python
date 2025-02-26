@@ -15,9 +15,10 @@ def main():
 def info():
     global name,email
     name = request.form.get("Nameinput")
-    email = request.form.get("Passinput")
+    email = request.form.get("passwordInput")
     FileSave()
     return render_template('index2.html',username=name,password=email)
+
 def FileSave():
     filename = "Information" + ".doc"
     filedir = os.path.dirname(os.path.realpath("__file__"))
@@ -25,9 +26,11 @@ def FileSave():
     if(existing == False):
         adminfile = open(filename, "x")
         adminfile = open(filename, "w")
-        adminfile.write("Username: " + name)
-    
-    
+        adminfile.write("Username: " + name + " Password: " + email + "\n")
+        adminfile.close()
+    else:
+        adminfile = open(filename,"a")
+        adminfile.write("Username: " + name + " Password: " + email + "\n")
 if __name__ == "__main__":
     app.run()
 
