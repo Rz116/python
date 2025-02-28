@@ -30,12 +30,17 @@ def FileSave():
     filedir = os.path.dirname(os.path.realpath("__file__"))
     existing = bool(path.exists(filename))
     if(existing == False):
-        adminfile = open(filename, "w")
-        adminfile.write("Username: " + name + " Password: " + email + "\n")
+        adminfile = open(filename, "x")
         adminfile.close()
+        write()
     else:
         adminfile = open(filename,"a")
         adminfile.write("Username: " + name + " Password: " + email + "\n")
+        
+def write():
+    adminfile = open(filename, "w")
+    adminfile.write("Username: " + name + " Password: " + email + "\n")
+    adminfile.close()
 if __name__ == "__main__":
     app.run()
 
