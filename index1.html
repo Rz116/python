@@ -1,14 +1,16 @@
 <html>
 	<head>
 		<title>Flask test</title>
+		<link rel="stylesheet">
 	</head>
 	<body>
 		<h1>Input the following information</h1>
 		<form method = "post" action = "/info">
-			<label id = "lblname">Enter your name: </label>
+			<label id = "lblname">Enter your Username: </label>
 			<input name = "Nameinput" type = "text"></input><br>
-			<label id = "lblpassword">Enter your Password: </label>
+			<label id = "lblmail">Enter your Password: </label>
 			<input name = "passwordInput" type = "text"></input><br>
+			<label id = "error">{{error}}</label><br>
 			<button type = "submit">Submit</button>
 		</form>
 	</body>
