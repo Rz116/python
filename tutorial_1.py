@@ -1,7 +1,8 @@
 import os.path
 from os import path
-
-def main():
+def login():
+    getinfo()
+def getinfo():
     fileDir = os.path.dirname(os.path.realpath("__file__"))
     whichone = str(input("Which Deparment would you like to shop in: \n"
                                              "1.Fruit \n"
@@ -54,8 +55,10 @@ def main():
 
     with open(filepath,"rb") as file:
         exec(compile(file.read(),filepath,"exec"),filenamepath);
-    main()
-
+    
+def main():
+    print("hello")
+    login()
     
 if __name__ == "__main__":
     main()
