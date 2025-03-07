@@ -1,10 +1,16 @@
 import os.path
 from os import path
+import sys
+
 def getinfo():
     global fruit,items,pounds,amount
+    
+    counter = 0
     fruit = ["1. Apples $3.00/lb ","2. Banana $2.50/lb","3. Peaches $3.50/lb","4. Oranges $3.00/lb",
                   "5. Mangos $4.00/lb","6. Pears $5.00/lb","7. Guava $3.00/lb","8. Kiwi $2.50/lb"]
+    items = []
     pounds = []
+    
     print("FRUIT DEPARTMENT: ")
     fruitlength = len(fruit)
     for i in range(0,int(fruitlength)):
@@ -13,43 +19,93 @@ def getinfo():
     amount = str(input("How many items would you like to buy (Type in a number between 1 and 8!): "))
     length_input1 = len(amount)
     info = list(amount)
-    for i in range(0,length_input1):
-        checkinput = ord(str(info[i]))
-        if (checkinput < 49 or checkinput > 56):
+    if(length_input1 > 1 or length_input1 < 1):
+        print("Type in a correct input!")
+        getinfo()
+    else:
+        checkinput = ord(amount)
+        if(checkinput < 49 or checkinput > 56):
             print("Type in a correct input")
             getinfo()
-        Getitems()
-        
-def Getitems():
+        else:
+            Getitems(counter)
+
+def Getitems(counter2):
     global items,temporary
-    items = [ ]
-    for i in range(0,int(amount)):
-        whichone = str(input("Which Item would you like to add to cart (Type a number from 1 - 8): "))
-        length = len(whichone)
-        check1 = list(whichone)
-        for i in range(0,int(length)):
-            checkinput1 = ord(str(check1[i]))
-            if(checkinput1 < 49 or checkinput1 > 56):
-                print("Type in a correct input")
-                Getitems()
+    counter3 = 0
+    whichone = str(input("Which item would you like to add to cart(Type a number from 1-8): "))
+    length = len(whichone)
+    if(length < 1 or length > 1):
+        print("Type in a correct input")
+        Getitems(counter2)
+    else:
+        checkinput = ord(whichone)
+        if(checkinput < 49 or checkinput > 56):
+            print("Type in a correct input")
+            Getitems(counter2)
+        else:
             items.append(whichone)
-    temporary = items
-    info2()
+            counter2 = counter2 + 1
+            if(counter2 == int(amount)):
+                info2(counter3)
+            else:
+                temporary = items
+                Getitems(counter2)
     
-def info2():
-    for i in range(0,int(amount)):
-        howmuch = str(input("How many pounds of item " + temporary[i] + " would you like to buy: "))
-        length = len(howmuch)
-        check2 = list(howmuch)
-        for i in range(0,int(length)):
-            checkinput2 = ord(str(check2[i]))
-            if(checkinput2 < 48 or checkinput2 > 57):
-                print("Type in a correct input")
-                info2()
+def info2(counterthree):
+    howmuch = str(input("How many pounds of item " + temporary[counterthree ] + " would you like to buy: "))
+    length = len(howmuch)
+    check2 = list(howmuch)
+    if(length < 1):
+        print("Type in a correct input")
+        info2(counterthree)
+    else:        
+        check3 = howmuch.isdigit()
+        if(check3 == False):
+            print("Type in a correct input")
+            info2(counterthree)
+        else:             
             pounds.append(howmuch)
+            counterthree = counterthree + 1
+            if(counterthree == int(amount)):
+                cartinfo()
+            else:
+                info2(counterthree)
+    
+def cartinfo():
     print(pounds)
     print(items)
-            
+    prices = []
+    totals = []
+    for i in range(0,len(items)):
+        whichitem = items[i]
+        match(whichitem):
+            case "1":
+                prices.append(3)
+            case "2":
+                prices.append(2.5)
+            case "3":
+                prices.append(3.5)
+            case "4":
+                prices.append(3)
+            case "5":
+                prices.append(4)
+            case "6":
+                prices.append(5)
+            case "7":
+                prices.append(3)
+            case "8":
+                prices.append(2.5)
+            case default:
+                print("Something went wrong")
+                sys.exit
+    for i in range(0,len(prices)):
+        itemtotal = float(prices[i]) * float(pounds[i])
+        totals.append(itemtotal)
+
+    print(prices)
+    print(totals)
+    
 def main():
     getinfo()
 
