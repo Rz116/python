@@ -2,8 +2,8 @@ import os.path
 from os import path
 
 def main():
-    filedir = os.path.dirname(os.path.realpath("__file__"))
-    whichone = str(input("Which Deparment would you like to shop in: \n "
+    fileDir = os.path.dirname(os.path.realpath("__file__"))
+    whichone = str(input("Which Deparment would you like to shop in: \n"
                                              "1.Fruit \n"
                                              "2.Poultry \n"
                                              "3.Meat \n"
@@ -13,38 +13,38 @@ def main():
                                              "7.Kosher \n"
                                              "8. Halal \n"
                                              "9. Cart \n"
-                                             "Type in a number from 1-8 to select an option: "))
+                                             "Type in a number from 1-9 to select an option: "))
                                                                    
     match(whichone):
         case "1":
-            filepath = filedir + "\Fruit.py"
+            filepath = fileDir + "\Fruit.py"
             
         case "2":
-            filepath = filedir + "\Poultry.py"
+            filepath = fileDir + "\Poultry.py"
             
         case "3":
-            filepath = filedir + "\Meat.py"
+            filepath = fileDir + "\Meat.py"
             
         case "4":
-            filepath = filedir  + "\Beverages.py"
+            filepath = fileDir  + "\Beverages.py"
             
         case "5":
-            filepath = filedir + "\Frozen.py"
+            filepath = fileDir + "\Frozen.py"
             
         case "6":
-            filepath = filedir  + "\Dietry.py"
+            filepath = fileDir  + "\Dietry.py"
             
         case"7":
             filepath = filedir + "\Kosher.py"
             
         case "8":
-            filepath = filedir  + "\halal.py"
+            filepath = fileDir  + "\halal.py"
             
         case "9":
-            filepath = filedir + "\cart.py"
+            filepath = fileDir + "\cart.py"
             
         case default:
-            print("BIG BIG ISSUE BROTHER")
+            print("Type in a correct input")
             main()
     
     filenamepath = {
@@ -55,6 +55,7 @@ def main():
     with open(filepath,"rb") as file:
         exec(compile(file.read(),filepath,"exec"),filenamepath);
     main()
+
     
 if __name__ == "__main__":
     main()
