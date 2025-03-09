@@ -4,7 +4,6 @@ import sys
 
 def getinfo():
     global fruit,items,pounds,amount
-    
     counter = 0
     fruit = ["1. Apples $3.00/lb ","2. Banana $2.50/lb","3. Peaches $3.50/lb","4. Oranges $3.00/lb",
                   "5. Mangos $4.00/lb","6. Pears $5.00/lb","7. Guava $3.00/lb","8. Kiwi $2.50/lb"]
@@ -73,6 +72,7 @@ def info2(counterthree):
                 info2(counterthree)
     
 def cartinfo():
+    global totals
     print(pounds)
     print(items)
     prices = []
@@ -102,9 +102,17 @@ def cartinfo():
     for i in range(0,len(prices)):
         itemtotal = float(prices[i]) * float(pounds[i])
         totals.append(itemtotal)
-
+    
     print(prices)
     print(totals)
+    cart()
+def cart():
+    
+    for i in range(0,int(amount)):
+        adminfile = open(usernamefile,"a")
+        adminfile.write(items[i] + "   " +  pounds[i] + "   " + totals[i] + "\n")
+    adminfile.close()
+    
     
 def main():
     getinfo()
