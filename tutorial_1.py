@@ -1,6 +1,7 @@
 import sys
 import os.path
 from os import path
+
 def user():
     logon = str(input("1.Login \n"
                                    "2.Sign up \n"
@@ -37,23 +38,23 @@ def login(nameuser):
 def signup():
     filedir = os.path.dirname(os.path.realpath("__file__"))
     username = str(input("Create a username: "))
-    filename = username + ".doc"
+    filesignup = username + ".doc"
                               
     length = len(username)
     if(length < 1):
         print("Type in a correct input")
         signup()
     else:
-        fileexist = bool(path.exists(filename))
+        fileexist = bool(path.exists(filesignup))
         if(fileexist == False):
-            adminfile = open(filename, "x")
+            adminfile = open(filesignup, "x")
             adminfile.close()
             print("Login Created")
-            getinfo()
+            getinfo(filesignup)
         else:
             print("File already exists")
             
-def getinfo():
+def getinfo(usernamefile):
     fileDir = os.path.dirname(os.path.realpath("__file__"))
     whichone = str(input("Which Deparment would you like to shop in: \n"
                                              "1.Fruit \n"
@@ -64,7 +65,7 @@ def getinfo():
                                              "6.Dietry Food \n"
                                              "7.Kosher \n"
                                              "8. Halal \n"
-                                             "9. Cart \n"
+                                             "9. Cart/Final Reciept \n"
                                              "10.Exit the program\n"
                                              "Type in a number from 1-10 to select an option: "))
                                                                    
@@ -110,6 +111,7 @@ def getinfo():
     with open(filepath,"rb") as file:
         exec(compile(file.read(),filepath,"exec"),filenamepath);
     main()
+    
 def main():
     user()
     
