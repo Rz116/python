@@ -3,6 +3,7 @@ import os.path
 from os import path
 
 def user():
+    namefile = "username.doc"
     logon = str(input("1.Login \n"
                                    "2.Sign up \n"
                                    "Choose an option by typing in 1 or 2: "))
@@ -56,18 +57,12 @@ def signup():
             
 def getinfo(usernamefile):
     fileDir = os.path.dirname(os.path.realpath("__file__"))
-    whichone = str(input("Which Deparment would you like to shop in: \n"
-                                             "1.Fruit \n"
-                                             "2.Poultry \n"
-                                             "3.Meat \n"
-                                             "4.Beverages \n"
-                                             "5.Frozen Foods \n"
-                                             "6.Dietry Food \n"
-                                             "7.Kosher \n"
-                                             "8. Halal \n"
-                                             "9. Cart/Final Reciept \n"
-                                             "10.Exit the program\n"
-                                             "Type in a number from 1-10 to select an option: "))
+    print("----Departments----")
+    departments = ["1.Fruit","2.Poultry","3.Meat","4.Beverages","5.Frozen Foods",
+                                "6.Dietry Food","7.Kosher","8.Halal","9.Cart/Reciept","10.Exit the Program"]
+    for i in range(0,len(departments)):
+        print(departments[i])
+    whichone = str(input("Type in a number from 1-10 to select a Department: "))
                                                                    
     match(whichone):
         case "1":
