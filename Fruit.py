@@ -46,6 +46,7 @@ def Getitems(counter2):
             items.append(whichone)
             counter2 = counter2 + 1
             if(counter2 == int(amount)):
+                temporary = items
                 info2(counter3)
             else:
                 temporary = items
@@ -111,7 +112,7 @@ def cart():
     counter = 0
     usernames = []
     adminfile = open("username.doc", "r")
-    adminvalue = adminfile.read().split(" ")
+    adminvalue = adminfile.read().splitlines()
     adminfile.close()
     
     for i in range(len(adminvalue)):
@@ -129,25 +130,23 @@ def check(leng,nameuser,counter1):
         print("Type in a correct input")
         cart()
     else:
-        if(nameuser != usernames[counter1]):
+        if nameuser not in usernames:
             print("Type in a correct input")
             cart()
+
+        filename = nameuser + ".doc"
+        fileexist = bool(path.exists(filename))
+        if(fileexist == False):
+            adminfile = open(filename,"x")
+            write(filename)
         else:
-            counter1 = counter1 + 1
-            if(counter1 == leng):
-                check(leng,nameuser,counter1)
-            else:
-                filename = nameuser + ".doc"
-                fileexist = bool(path.exists(filename))
-                if(fileexist == False):
-                    adminfile = open(filename,"x")
-                    write(filename)
-                else:
-                    print("IMMA DO THIS PART LATER")
+            #VERY IMPORTANT SHIT TO DO HERE
+            print("IMMA DO THIS PART LATER")
 def write(namefile):
+    total = 0
     products = []
     adminfile = open(namefile,"a")
-    adminfile.write("Product:    " + "Pounds:     " + "Price:      ")
+    adminfile.write("Products and Price" + "\n" + "\n")
     for i in range(0,len(items)):
         match(items[i]):
             case "1":
@@ -170,7 +169,44 @@ def write(namefile):
                 print("Theres a big problem")
                 sys.exit()
     
-    print(products)
+    for i in range(0,len(products)):
+        adminfile.write(str(pounds[i]) + " Lbs " + products[i] +  " $"+  str(totals[i]) + "\n")
+    for i in range(0,len(totals)):
+        total = total + totals[i]
+    adminfile.write("\n"+ "Total Price: " + " $" + str(total))
+    adminfile.close()
+
+    ask(namefile)
+def ask(filename):
+    program = str(input("1. Look at your receipt \n"
+                                         "2. Shop at another department \n"
+                                         "3. Exit the program \n"
+                                         "Type in 1, 2 or 3 to select an option: "))
+    length = len(program)
+    if (length < 1 or length > 1):
+        print("Type in a correct input")
+        ask(filename)
+    else:
+        char = ord(program)
+        if(char < 49 or char > 51):
+            print("Type in a correct input")
+            ask()
+        else:
+            match(int(program)):
+                case 1:
+                    adminfile = open(filename, "r")
+                    print("----Reciept----")
+                    print(adminfile.read())
+                    adminfile.close()
+                case 2:
+                    print("Please select a department")
+                case 3:
+                    print("Thank you for shopping!!")
+                    sys.exit()
+                case default:
+                    print("PROBLEM")
+                    sys.exit()
+                
     
 def main():
     getinfo()
