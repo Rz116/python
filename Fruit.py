@@ -107,12 +107,70 @@ def cartinfo():
     print(totals)
     cart()
 def cart():
-    
-    for i in range(0,int(amount)):
-        adminfile = open(usernamefile,"a")
-        adminfile.write(items[i] + "   " +  pounds[i] + "   " + totals[i] + "\n")
+    global usernames
+    counter = 0
+    usernames = []
+    adminfile = open("username.doc", "r")
+    adminvalue = adminfile.read().split(" ")
     adminfile.close()
     
+    for i in range(len(adminvalue)):
+        usernames.append(adminvalue[i].strip())
+    for i in range(len(usernames)):
+        print(str(i +1) + ". " + usernames[i])
+        
+    username = str(input("What is your username: "))
+    length = len(username)
+    check(length,username,counter)
+
+def check(leng,nameuser,counter1):
+    filedir = os.path.dirname(os.path.realpath("__file__"))
+    if(leng < 1 ):
+        print("Type in a correct input")
+        cart()
+    else:
+        if(nameuser != usernames[counter1]):
+            print("Type in a correct input")
+            cart()
+        else:
+            counter1 = counter1 + 1
+            if(counter1 == leng):
+                check(leng,nameuser,counter1)
+            else:
+                filename = nameuser + ".doc"
+                fileexist = bool(path.exists(filename))
+                if(fileexist == False):
+                    adminfile = open(filename,"x")
+                    write(filename)
+                else:
+                    print("IMMA DO THIS PART LATER")
+def write(namefile):
+    products = []
+    adminfile = open(namefile,"a")
+    adminfile.write("Product:    " + "Pounds:     " + "Price:      ")
+    for i in range(0,len(items)):
+        match(items[i]):
+            case "1":
+                products.append("Apples")
+            case "2":
+                products.append("Bananas")
+            case "3":
+                products.append("Peaches")
+            case "4":
+                products.append("Oranges")
+            case "5":
+                products.append("Mangos")
+            case "6":
+                products.append("Pears")
+            case "7":
+                products.append("Guava")
+            case "8":
+                products.append("Kiwi's")
+            case default:
+                print("Theres a big problem")
+                sys.exit()
+    
+    print(products)
     
 def main():
     getinfo()
