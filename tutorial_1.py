@@ -3,7 +3,17 @@ import os.path
 from os import path
 
 def user():
+    filedir = os.path.dirname(os.path.realpath("__file__"))
     namefile = "username.doc"
+    fileexist = bool(path.exists(namefile))
+    if (fileexist == False):
+        adminfile = open(namefile, "x")
+        login(namefile)
+    else:
+        login(namefile)
+        
+def login(filename):
+    filedir = os.path.dirname(os.path.realpath("__file__"))
     logon = str(input("1.Login \n"
                                    "2.Sign up \n"
                                    "Choose an option by typing in 1 or 2: "))
@@ -15,7 +25,7 @@ def user():
         checkinput = ord(logon)
         if(checkinput < 49 or checkinput > 50):
             print("Type in a correct input")
-            user()
+            login()
         else:
             if(int(logon) == 1):
                 username = str(input("What is your username: "))
@@ -24,38 +34,26 @@ def user():
                     print("Type in a correct input")
                     user()
                 else:
-                    login(username)
+                    logger(username)
             else:
-                signup()
-def login(nameuser):
+                signup(filename)
+def logger(username):
+    print("I went to the logon page")
+    getinfo()
+def signup(nameof_file):
     filedir = os.path.dirname(os.path.realpath("__file__"))
-    filename = nameuser + ".doc"
-    fileexist = bool(path.exists(filename))
-    if(fileexist == True):
-        print("Logged on !")
-    else:
-        print("Username doesnt exist")
-        signup()
-def signup():
-    filedir = os.path.dirname(os.path.realpath("__file__"))
-    username = str(input("Create a username: "))
-    filesignup = username + ".doc"
-                              
+    username = str(input("Create a username:  "))
     length = len(username)
     if(length < 1):
         print("Type in a correct input")
-        signup()
+        signup(nameof_file)
     else:
-        fileexist = bool(path.exists(filesignup))
-        if(fileexist == False):
-            adminfile = open(filesignup, "x")
-            adminfile.close()
-            print("Login Created")
-            getinfo(filesignup)
-        else:
-            print("File already exists")
-            
-def getinfo(usernamefile):
+        adminfile = open(nameof_file, "a")
+        adminfile.write(username + "\n")
+        adminfile.close()
+        getinfo()
+    
+def getinfo():
     fileDir = os.path.dirname(os.path.realpath("__file__"))
     print("----Departments----")
     departments = ["1.Fruit","2.Poultry","3.Meat","4.Beverages","5.Frozen Foods",
@@ -105,7 +103,8 @@ def getinfo(usernamefile):
 
     with open(filepath,"rb") as file:
         exec(compile(file.read(),filepath,"exec"),filenamepath);
-    main()
+        
+    getinfo()
     
 def main():
     user()
