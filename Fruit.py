@@ -1,3 +1,4 @@
+
 import os.path
 from os import path
 import sys
@@ -108,7 +109,7 @@ def cartinfo():
     print(totals)
     cart()
 def cart():
-    global usernames
+    global usernames,counter,length
     counter = 0
     usernames = []
     adminfile = open("username.doc", "r")
@@ -119,7 +120,8 @@ def cart():
         usernames.append(adminvalue[i].strip())
     for i in range(len(usernames)):
         print(str(i +1) + ". " + usernames[i])
-        
+    user()
+def user():
     username = str(input("What is your username: "))
     length = len(username)
     check(length,username,counter)
@@ -128,20 +130,21 @@ def check(leng,nameuser,counter1):
     filedir = os.path.dirname(os.path.realpath("__file__"))
     if(leng < 1 ):
         print("Type in a correct input")
-        cart()
+        user()
     else:
         if nameuser not in usernames:
             print("Type in a correct input")
-            cart()
+            user()
+        else:            
+            filename = nameuser + ".doc"
+            fileexist = bool(path.exists(filename))
+            if(fileexist == False):
+                adminfile = open(filename,"x")
+                write(filename)
+            else:
+                #VERY IMPORTANT SHIT TO DO HERE
+                print("IMMA DO THIS PART LATER")
 
-        filename = nameuser + ".doc"
-        fileexist = bool(path.exists(filename))
-        if(fileexist == False):
-            adminfile = open(filename,"x")
-            write(filename)
-        else:
-            #VERY IMPORTANT SHIT TO DO HERE
-            print("IMMA DO THIS PART LATER")
 def write(namefile):
     total = 0
     products = []
@@ -195,7 +198,7 @@ def ask(filename):
             match(int(program)):
                 case 1:
                     adminfile = open(filename, "r")
-                    print("----Reciept----")
+                    print("------Reciept------")
                     print(adminfile.read())
                     adminfile.close()
                 case 2:
