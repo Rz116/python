@@ -37,10 +37,37 @@ def login(filename):
                     logger(username)
             else:
                 signup(filename)
-def logger(username):
-    print("I went to the logon page")
-    getinfo()
+def logger(nameuser):
+    namefile = "username.doc"
+    filedir = os.path.dirname(os.path.realpath("__file__"))
+    filename = nameuser + ".doc"
+    fileexist = bool(path.exists(filename))
+    if(fileexist == False):
+        print("Login doesnt exist, Please create one!!")
+        signup(namefile)
+    else:
+        options = str(input("1. Check your cart \n"
+                                           "2. Shop at more departments \n"
+                                           "Type in 1 or 2 to select an option: "))
+        length = len(options)
+        if(length < 1 or length > 1):
+            print("Type in a corect input")
+            logger(nameuser)
+        else:
+            match (int(options)):
+                case 1:
+                    adminfile = open(filename, "r")
+                    print("------Reciept------")
+                    print(adminfile.read())
+                    adminfile.close()
+                case 2:
+                    getinfo()
+                case default:
+                    print("Type in a correcet input")
+                    logger(nameuser)
+        
 def signup(nameof_file):
+    usernames = []
     filedir = os.path.dirname(os.path.realpath("__file__"))
     username = str(input("Create a username:  "))
     length = len(username)
@@ -48,11 +75,22 @@ def signup(nameof_file):
         print("Type in a correct input")
         signup(nameof_file)
     else:
-        adminfile = open(nameof_file, "a")
-        adminfile.write(username + "\n")
+        adminfile = open(nameof_file, "r")
+        adminvalue = adminfile.read().splitlines()
         adminfile.close()
-        getinfo()
-    
+        for i in range(len(adminvalue)):
+            usernames.append(adminvalue[i].strip())
+        adminfile.close()
+
+        if username in usernames:
+            print("The username already exists")
+            logger(username)
+        else:
+            adminfile = open(nameof_file, "a")
+            adminfile.write(username + "\n")
+            adminfile.close()
+            getinfo()
+        
 def getinfo():
     fileDir = os.path.dirname(os.path.realpath("__file__"))
     print("----Departments----")
