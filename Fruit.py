@@ -1,4 +1,3 @@
-
 import os.path
 from os import path
 import sys
@@ -109,7 +108,7 @@ def cartinfo():
     print(totals)
     cart()
 def cart():
-    global usernames,counter,length
+    global usernames
     counter = 0
     usernames = []
     adminfile = open("username.doc", "r")
@@ -120,35 +119,119 @@ def cart():
         usernames.append(adminvalue[i].strip())
     for i in range(len(usernames)):
         print(str(i +1) + ". " + usernames[i])
-    user()
-def user():
+        
     username = str(input("What is your username: "))
     length = len(username)
-    check(length,username,counter)
+    existing(length,username,counter)
 
-def check(leng,nameuser,counter1):
+def existing(leng,nameuser,counter1):
     filedir = os.path.dirname(os.path.realpath("__file__"))
     if(leng < 1 ):
         print("Type in a correct input")
-        user()
+        cart()
     else:
         if nameuser not in usernames:
             print("Type in a correct input")
-            user()
+            cart()
         else:            
             filename = nameuser + ".doc"
             fileexist = bool(path.exists(filename))
             if(fileexist == False):
+                price = nameuser + "prices" + ".doc"
+                product = nameuser + "product" + ".doc"
+                pound = nameuser + "pound" + ".doc"
+                prices = open(price, "x")
                 adminfile = open(filename,"x")
-                write(filename)
+                write(filename,price,product,pound)
             else:
-                #VERY IMPORTANT SHIT TO DO HERE
-                print("IMMA DO THIS PART LATER")
+                exists(nameuser,filename)
+def exists(username,namefile):
+    total = 0
+    sums = []
+    products = []
+    products2 = []
+    pounds2 = []
+    filedir = os.path.dirname(os.path.realpath("__file__"))
+    price = username + "prices" + ".doc"
+    produce = username + "product" + ".doc"
+    lbs = username + "pound" + ".doc"
+    fileexists = bool(path.exists(price))
+    fileexists2 = bool(path.exists(produce))
+    fileexists3 = bool(path.exists(lbs))
+    if(fileexists == False or fileexists2 == False or fileexists3 == False):
+        print("Something went wrong")
+        sys.exit()
+    else:
+        adminproducts = open(produce,  "a")
+        adminprices = open(price, "a")
+        adminpounds = open(lbs, "a")
+    for i in range(len(items)):
+        match(items[i]):
+            case "1":
+                products2.append("Apples")
+            case "2":
+                products2.append("Bananas")
+            case "3":
+                products2.append("Peaches")
+            case "4":
+                products2.append("Oranges")
+            case "5":
+                products2.append("Mangos")
+            case "6":
+                products2.append("Pears")
+            case "7":
+                products2.append("Guava")
+            case "8":
+                products2.append("Kiwi's")
+            case default:
+                print("Theres a big problem")
+                sys.exit()
+                
+    for i in range(len(products2)):
+        adminproducts.write(products2[i] + "\n")
+    adminproducts.close()
+    for i in range(len(totals)):
+        adminprices.write(str(totals[i]) + "\n")
+    adminprices.close()
+    for i in range(len(pounds)):
+        adminpounds.write(str(pounds[i]) + "\n")
+    adminpounds.close()
 
-def write(namefile):
+    adminproducts2 = open(produce, "r+")
+    adminvalue1 = adminproducts2.read().splitlines()
+    adminproducts2.close()
+    for i in range(len(adminvalue1)):
+        products.append(adminvalue1[i].strip())
+        
+    adminprices2 = open(price,"r")
+    adminvalue2 = adminprices2.read().splitlines()
+    adminprices2.close()
+    for i in range(len(adminvalue2)):
+        sums.append(adminvalue2[i].strip())
+        
+    adminpounds2 = open(lbs, "r")
+    adminvalue3 = adminpounds2.read().splitlines()
+    adminpounds2.close()
+    for i in range(len(adminvalue3)):
+        pounds2.append(adminvalue3[i].strip())
+
+    for i in range(len(sums)):
+        total = total + float(sums[i])
+        
+    adminfile = open(namefile , "w")
+    adminfile.write("Products and Prices" + "\n" + "\n")
+    for i in range(0,len(pounds2)):
+        adminfile.write(str(pounds2[i]) + " Lbs " + str(products[i]) + "  $" + str(sums[i]) + "\n")
+    adminfile.write("\n" + "Total price:  " + " $"  + str(total))
+    ask(namefile)
+    
+def write(namefile,prices,item,lbs):
     total = 0
     products = []
     adminfile = open(namefile,"a")
+    adminother = open(prices, "a")
+    adminother2 = open(item, "a")
+    adminother3 = open(lbs, "a")
     adminfile.write("Products and Price" + "\n" + "\n")
     for i in range(0,len(items)):
         match(items[i]):
@@ -174,6 +257,9 @@ def write(namefile):
     
     for i in range(0,len(products)):
         adminfile.write(str(pounds[i]) + " Lbs " + products[i] +  " $"+  str(totals[i]) + "\n")
+        adminother.write(str(totals[i]) + "\n")
+        adminother2.write(str(products[i]) + "\n")
+        adminother3.write(str(pounds[i]) + "\n")
     for i in range(0,len(totals)):
         total = total + totals[i]
     adminfile.write("\n"+ "Total Price: " + " $" + str(total))
@@ -198,7 +284,7 @@ def ask(filename):
             match(int(program)):
                 case 1:
                     adminfile = open(filename, "r")
-                    print("------Reciept------")
+                    print("----Reciept----")
                     print(adminfile.read())
                     adminfile.close()
                 case 2:
@@ -209,8 +295,7 @@ def ask(filename):
                 case default:
                     print("PROBLEM")
                     sys.exit()
-                
-    
+                    
 def main():
     getinfo()
 
