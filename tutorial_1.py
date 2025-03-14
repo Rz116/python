@@ -38,13 +38,18 @@ def login(filename):
             else:
                 signup(filename)
 def logger(nameuser):
+    names = []
     namefile = "username.doc"
     filedir = os.path.dirname(os.path.realpath("__file__"))
-    filename = nameuser + ".doc"
-    fileexist = bool(path.exists(filename))
-    if(fileexist == False):
-        print("Login doesnt exist, Please create one!!")
-        signup(namefile)
+    admin = open(namefile, "r")
+    adminvalue = admin.read().splitlines()
+
+    for i in range(0,len(adminvalue)):
+        names.append(adminvalue[i].strip())
+
+    if nameuser not in names:
+        print("Username doesnt exist!!")
+        logger(nameuser)
     else:
         options = str(input("1. Check your cart \n"
                                            "2. Shop at more departments \n"
@@ -61,7 +66,7 @@ def logger(nameuser):
                     print(adminfile.read())
                     adminfile.close()
                 case 2:
-                    getinfo()
+                    getinfo(nameuser)
                 case default:
                     print("Type in a correcet input")
                     logger(nameuser)
@@ -89,16 +94,16 @@ def signup(nameof_file):
             adminfile = open(nameof_file, "a")
             adminfile.write(username + "\n")
             adminfile.close()
-            getinfo()
+            getinfo(username)
         
-def getinfo():
+def getinfo(name):
     fileDir = os.path.dirname(os.path.realpath("__file__"))
     print("----Departments----")
     departments = ["1.Fruit","2.Poultry","3.Meat","4.Beverages","5.Frozen Foods",
-                                "6.Dietry Food","7.Kosher","8.Halal","9.Cart/Reciept","10.Exit the Program"]
+                                "6.Dietry Food","7.Kosher","8.Halal","9.Cart/Reciept","10.Exit the Program","11.Sign out"]
     for i in range(0,len(departments)):
         print(departments[i])
-    whichone = str(input("Type in a number from 1-10 to select a Department: "))
+    whichone = str(input("Type in a number from 1-11 to select an option Department: "))
                                                                    
     match(whichone):
         case "1":
@@ -126,10 +131,22 @@ def getinfo():
             filepath = fileDir  + "\halal.py"
             
         case "9":
-            filepath = fileDir + "\cart.py"
+            filename = name + ".doc"
+            fileexist = bool(path.exists(filename))
+            if(fileexist == False):
+                print("You must shop first to view cart")
+                getinfo(name)
+            else:               
+                admin = open(filename, "r")
+                print("------Reciept------")
+                print(admin.read())
         case "10":
             print("Goodbye")
             sys.exit()
+        case "11":
+            print("Signing out")
+            user()
+
         case default:
             print("Type in a correct input")
             getinfo()
@@ -142,7 +159,7 @@ def getinfo():
     with open(filepath,"rb") as file:
         exec(compile(file.read(),filepath,"exec"),filenamepath);
         
-    getinfo()
+    getinfo(name)
     
 def main():
     user()
