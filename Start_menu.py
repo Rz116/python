@@ -25,7 +25,7 @@ def login(filename):
         checkinput = ord(logon)
         if(checkinput < 49 or checkinput > 50):
             print("Type in a correct input")
-            login()
+            login(filename)
         else:
             if(int(logon) == 1):
                 username = str(input("What is your username: "))
@@ -40,6 +40,7 @@ def login(filename):
 def logger(nameuser):
     names = []
     namefile = "username.doc"
+    filename = nameuser + ".doc"
     filedir = os.path.dirname(os.path.realpath("__file__"))
     admin = open(namefile, "r")
     adminvalue = admin.read().splitlines()
@@ -49,7 +50,7 @@ def logger(nameuser):
 
     if nameuser not in names:
         print("Username doesnt exist!!")
-        logger(nameuser)
+        signup(namefile)
     else:
         options = str(input("1. Check your cart \n"
                                            "2. Shop at more departments \n"
@@ -61,10 +62,15 @@ def logger(nameuser):
         else:
             match (int(options)):
                 case 1:
-                    adminfile = open(filename, "r")
-                    print("------Reciept------")
-                    print(adminfile.read())
-                    adminfile.close()
+                    existing = bool(path.exists(filename))
+                    if(existing == False):
+                        print("You must shop first to view Cart")
+                        getinfo(nameuser)
+                    else:                        
+                        adminfile = open(filename, "r")
+                        print("------Reciept------")
+                        print(adminfile.read())
+                        adminfile.close()
                 case 2:
                     getinfo(nameuser)
                 case default:
@@ -140,6 +146,8 @@ def getinfo(name):
                 admin = open(filename, "r")
                 print("------Reciept------")
                 print(admin.read())
+                admin.close()
+                sys.exit() 
         case "10":
             print("Goodbye")
             sys.exit()
@@ -149,7 +157,7 @@ def getinfo(name):
 
         case default:
             print("Type in a correct input")
-            getinfo()
+            getinfo(name)
     
     filenamepath = {
             "__file__":filepath,
