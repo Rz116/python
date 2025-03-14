@@ -6,16 +6,26 @@ def getinfo():
     global fruit,items,pounds,amount
     counter = 0
     fruit = []
+    price = []
     items = []
     pounds = []
+
     admin = open("fruit.txt", "r")
     adminvalue = admin.read().split(",")
     print("FRUIT DEPARTMENT: ")
     fruitlength = len(adminvalue)
     for i in range(0,int(fruitlength)):
         fruit.append(adminvalue[i].strip())
+    admin.close()
+    
+    admin2 = open("fruitPrice.txt","r")
+    adminvalue2 = admin2.read().split(",")
+    for i in range(0,len(adminvalue2)):
+        price.append(adminvalue2[i].strip())
+    admin2.close()
+    
     for i in range(0,len(fruit)):
-        print(str(i+1) + ". " + fruit[i])
+        print(str(i+1) + ". " + fruit[i]  + " "  + price[i])
 
     amount = str(input("How many items would you like to buy (Type in a number between 1 and 8!): "))
     length_input1 = len(amount)
@@ -220,6 +230,7 @@ def exists(username,namefile):
     for i in range(0,len(pounds2)):
         adminfile.write(str(pounds2[i]) + " Lbs " + str(products[i]) + "  $" + str(sums[i]) + "\n")
     adminfile.write("\n" + "Total price:  " + " $"  + str(total))
+    adminfile.close()
     ask(namefile)
     
 def write(namefile,prices,item,lbs):
